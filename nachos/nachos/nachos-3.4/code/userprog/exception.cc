@@ -367,7 +367,7 @@ void ExceptionHandler(ExceptionType which)
 				char* buffer2;
 				virtAddress2= machine->ReadRegister(4);//address from register r4
 				length2 = machine->ReadRegister(5); // length from register r5 
-				buffer2 = User2System(virtAddress2, length2); // convert User Space to System Space
+				buffer2 = User2System(virtAddress2, length2); // coppy User Space to System Space
 				synchConsole->Read(buffer2, length2); //  use point SynchConsole->read for read string
 				System2User(virtAddress2, length2, buffer2); // Copy string from System Space to User Space
 				delete buffer2;
@@ -376,13 +376,13 @@ void ExceptionHandler(ExceptionType which)
 			case SC_PrintString:
 				int virtAddress3;
 				char* buffer3;
-				virtAddress3 = machine->ReadRegister(4); // Lay dia chi cua tham so buffer tu thanh ghi so 4
-				buffer3 = User2System(virtAddress3, 255); // Copy chuoi tu vung nho User Space sang System Space voi bo dem buffer dai 255 ki tu
+				virtAddress3 = machine->ReadRegister(4); //address from register r4
+				buffer3 = User2System(virtAddress3, 255); // coppy User Space to System Space with length 255 character
 				int length3;
 				length3 = 0;
 				while (buffer3[length3] != 0) 
-					length3++; // Dem do dai that cua chuoi
-				synchConsole->Write(buffer3, length3 + 1); // Goi ham Write cua SynchConsole de in chuoi
+					length3++; // count length string
+				synchConsole->Write(buffer3, length3 + 1); // use point SynchConsole->write for print string
 				delete buffer3;
 				IncreasePC(); 
 				return;
