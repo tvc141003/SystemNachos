@@ -153,7 +153,8 @@ void ExceptionHandler(ExceptionType which)
 				DEBUG('a', "Shutdown, initiated by user program.\n");
 				printf("\nShutdown, initiated by user program.\n");
    				interrupt->Halt();
-				return;
+				break;
+				//return;
 	
 			case SC_Create:
 				int virtAddr;
@@ -184,7 +185,8 @@ void ExceptionHandler(ExceptionType which)
 				machine->WriteRegister(2,0);
 				delete filename;
 				IncreasePC();
-				return;
+				break;
+				//return;
 
 			case SC_ReadInt:
 				char* buffer;
@@ -195,14 +197,14 @@ void ExceptionHandler(ExceptionType which)
 				numbytes = synchConsole->Read(buffer, Max_Buffer);// read buffer size maximum 255 character, return bytes
 				//negative or positive number
 				bool isNegative;
-				isNegative =true;//set number is negative
+				isNegative = false;//set number is negative
 				int indexFirst;
 				indexFirst=0;
 				int indexLast;
 				indexLast=0;
-				if(buffer[0] != '-')
+				if(buffer[0] == '-')
 				{
-					isNegative=false;
+					isNegative = true;
 					indexFirst=1;
 
 				}
@@ -229,6 +231,7 @@ void ExceptionHandler(ExceptionType which)
 						}
 						// update indexLast
 						indexLast = i - 1;
+						delete buffer;
 						return;
 	
 					}
@@ -244,7 +247,6 @@ void ExceptionHandler(ExceptionType which)
 					}
 
 				}
-				
 				//convert string buffer to integer
 				int n;
 				n=0;//result
@@ -262,7 +264,7 @@ void ExceptionHandler(ExceptionType which)
 				machine->WriteRegister(2, n);
 				IncreasePC();
 				delete buffer;
-				return;
+				break;
 
 			case SC_PrintInt:
 				int number;
@@ -300,7 +302,7 @@ void ExceptionHandler(ExceptionType which)
 					synchConsole->Write(buffer, count + 1);
 					delete buffer;
 					IncreasePC();
-					return;
+					//return;
 				}
 				else// number is positive
 				{
@@ -324,8 +326,9 @@ void ExceptionHandler(ExceptionType which)
 					synchConsole->Write(buffer, count);
 					delete buffer;
 					IncreasePC();
-					return;
+					//return;
 				}
+				break;
 			case SC_ReadChar:
 				int Max_byte;
 				Max_byte = 255;
@@ -354,13 +357,15 @@ void ExceptionHandler(ExceptionType which)
 	
 				delete buffer1;
 				IncreasePC();
-				return;
+				break;
+				//return;
 			case SC_PrintChar:
 				char character;
 				character = (char)machine->ReadRegister(4); //read register r4
 				synchConsole->Write(&character, 1); // print character 1 byte
 				IncreasePC();
-				return;
+				break;
+				//return;
 			case SC_ReadString:
 				int virtAddress2;
 				int length2;
@@ -372,7 +377,8 @@ void ExceptionHandler(ExceptionType which)
 				System2User(virtAddress2, length2, buffer2); // Copy string from System Space to User Space
 				delete buffer2;
 				IncreasePC();
-				return;
+				break;				
+				//return;
 			case SC_PrintString:
 				int virtAddress3;
 				char* buffer3;
@@ -385,7 +391,8 @@ void ExceptionHandler(ExceptionType which)
 				synchConsole->Write(buffer3, length3 + 1); // use point SynchConsole->write for print string
 				delete buffer3;
 				IncreasePC(); 
-				return;
+				break;
+				//return;
 		}
 		break;		
 	}
