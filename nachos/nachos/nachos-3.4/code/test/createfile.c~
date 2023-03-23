@@ -3,24 +3,22 @@
 #define maxlen 32
 int main()
 {
-	//int len;
-	//char filename[maxlen +1];
+	int len;
+	char filename[maxlen +1];
 /*Create a file*/
-	/*int x;
-	x=10;
 	if (Create("texTTTT.txt") == -1)
 	{
 	// xuất thông báo lỗi tạo tập tin
 	//printf("xuất thông báo lỗi tạo tập tin");
 
-		PrintInt(x);
+		PrintChar('a');
 	}
 	else
 	{
 	// xuất thông báo tạo tập tin thành công
 	//printf("xuất thông báo tạo tập tin thành công");
-		PrintInt(x);
-	}*/
-	PrintChar(a);
+		PrintChar('a');
+	}
+
 	Halt();
 }
